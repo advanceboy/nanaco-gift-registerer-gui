@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" crossorigin="anonymous">
+    <title>nanaco Gift Registerer</title>
+  </head>
+  <body class="bg-light">
+    <div class="container">
+      <div class="text-center py-3">
+        <h1 id="title">nanaco Gift Registerer</h1>
+      </div>
+    </div>
+    
+    <form class="container-md needs-validation" data-bind="submit: doSubmit" novalidate>
+      <div class="mb-3">
+        <label for="txtGiftTexts">nanaco ギフト</label>
+        <textarea class="form-control" id="txtGiftTexts" rows="8" placeholder="nanaco Gift URL を含むテキスト" data-bind="textInput: giftTexts" required></textarea>
+        <div class="invalid-feedback">
+          nanaco ギフトの登録 URL が 1つ 以上含まれるテキストを入力してください
+        </div>
+      </div>
+
+      <div class="d-block my-3">
+        <div class="custom-control custom-radio">
+          <input name="rdoMemberType" type="radio" value="card" id="rdoMemberCard" data-bind="checked: memberType" class="custom-control-input" required>
+          <label class="custom-control-label" for="rdoMemberCard">nanaco カード</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input name="rdoMemberType" type="radio" value="mobile" id="rdoMemberMobile" data-bind="checked: memberType" class="custom-control-input" required>
+          <label class="custom-control-label" for="rdoMemberMobile">nanaco モバイル</label>
+        </div>
+      </div>
+
+      <div class="d-block my-3">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" id="chkAsGiftIdList" data-bind="checked: asGiftIdList" class="custom-control-input">
+          <label class="custom-control-label" for="chkAsGiftIdList">URL ではなく ギフトID を入力</label>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12 col-lg-4 mb-3">
+          <label for="txtNanacoNumber">nanaco 番号</label>
+          <input type="text" class="form-control" id="txtNanacoNumber" placeholder="nanaco 番号" data-bind="textInput: nanacoNumber" required>
+          <div class="invalid-feedback">
+            ハイフンを除く半角数字16桁を入力してください
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+          <label for="txtCardNumber">カード記載の番号</label>
+          <input type="password" class="form-control" id="txtCardNumber" placeholder="カード記載の番号"  data-bind="textInput: cardNumber, enable: memberIsCard, attr: { 'required': memberIsCard }">
+          <div class="invalid-feedback">
+            半角数字7桁を入力してください
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+          <label for="txtMobilePassword">nanaco モバイル パスワード</label>
+          <input type="password" class="form-control" id="txtMobilePassword" placeholder="パスワード"  data-bind="textInput: mobilePassword, enable: memberIsMobile, attr: { 'required': memberIsMobile }">
+          <div class="invalid-feedback">
+            パスワードを入力してください
+          </div>
+        </div>
+      </div>
+      <div>
+        <button type="submit" data-bind="enable: submittable, class: submittable() ? 'btn btn-primary' : 'btn btn-secondary'">実行</button>
+      </div>
+      <div class="my-3">
+        <label for="txtResultArea">進捗ログ</label>
+        <textarea class="form-control" id="txtResultArea" rows="8" data-bind="textInput: resultText" readonly></textarea>
+      </div>
+    </form>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/knockout@3.5.1/build/output/knockout-latest.min.js" crossorigin="anonymous"></script>
+    <script>
+      (() => {
+        'use strict';
+
+        // バリデーションチェックされていなければ、 submit を無効にする
+        const forms = document.querySelectorAll('.needs-validation');
+        forms.forEach(form => {
+          form.addEventListener('submit', event => {
+            // if(!form.checkValidity()) {
+            //   event.preventDefault();
+            //   event.stopPropagation();
+            // }
+            form.classList.add('was-validated');
+          }, false);
+        });
+
+        // バインディング
+        function ViewModel() {
+          const _this = this;
+          this.giftTexts = ko.observable('');
+          this.memberType = ko.observable('card');
+          this.memberIsCard = ko.computed(() => _this.memberType() === 'card');
+          this.memberIsMobile = ko.computed(() => _this.memberType() === 'mobile');
+          this.asGiftIdList = ko.observable(false);
+          this.nanacoNumber = ko.observable('');
+          this.cardNumber = ko.observable('');
+          this.mobilePassword = ko.observable('');
+          this.submittable = ko.observable(true);
+          this.resultText = ko.observable('');
+
+          // "実行" クリック時
+          this.doSubmit = async (formElement) => {
+            // バリデーションに成功した場合のみ、実行
+            if (formElement.checkValidity()) {
+              const dataStringified = JSON.stringify(ko.toJS(_this));
+              const invokeId = new Date().getTime().toString(16) + ('000' + Math.floor(Math.random() * 65536).toString(16)).slice(-3);
+
+              _this.submittable(false);
+              _this.resultText('');
+              try {
+                await window.myAPI.startRegister(invokeId, dataStringified);
+              } catch (e) {
+                _this.resultText(_this.resultText() + `${e}` + '\n');
+              } finally {
+                _this.submittable(true);
+              }
+            }
+          };
+        }
+        const viewModel = new ViewModel();
+        ko.applyBindings(viewModel);
+
+        // メインプロセスからのイベントの処理
+        window.myAPI.on('appendResult', (event, msg) => {
+          viewModel.resultText(viewModel.resultText() + msg + '\n');
+        });
+        window.myAPI.on('updateTitle', (event, title) => {
+          document.title = title;
+          document.getElementById('title').innerText = title;
+        });
+      })();
+    </script>
+  </body>
+</html>

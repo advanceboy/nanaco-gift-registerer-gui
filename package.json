@@ -1,0 +1,44 @@
+{
+  "name": "nanaco-gift-registerer-gui",
+  "version": "0.0.1",
+  "description": "nanaco Gift Automatic Registerer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "win": {
+    "target": "zip"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/advanceboy/nanaco-gift-registerer-gui.git"
+  },
+  "keywords": [
+    "nanaco"
+  ],
+  "author": "advanceboy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/advanceboy/nanaco-gift-registerer-gui/issues"
+  },
+  "homepage": "https://github.com/advanceboy/nanaco-gift-registerer-gui#readme",
+  "build": {
+    "files": [
+      "!limit-to-counts.non${channel}.dat"
+    ],
+    "win": {
+      "target": "portable"
+    }
+  },
+  "devDependencies": {
+    "electron": "^12.0.6",
+    "electron-builder": "^22.10.5"
+  },
+  "dependencies": {
+    "glob": "^7.1.6",
+    "glob-promise": "^4.1.0",
+    "puppeteer-core": "^9.0.0",
+    "puppeteer-in-electron": "^3.0.3"
+  }
+}
