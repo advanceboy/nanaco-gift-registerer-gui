@@ -28,7 +28,7 @@
       "!limit-to-counts.non${channel}.dat"
     ],
     "win": {
-      "target": "portable"
+      "target": "zip"
     }
   },
   "devDependencies": {
