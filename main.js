@@ -25,14 +25,8 @@ const waitAsync = async (time) => {
   const stepWaiting = app.commandLine.hasSwitch('step-waiting') ? parseFloat(app.commandLine.getSwitchValue('step-waiting')) : 100;
   if (Number.isNaN(stepWaiting)) throw `invalid option --step-waiting=${app.commandLine.getSwitchValue('step-waiting')}`;
 
-  // pie:initialize@port を省略すると、内部で呼ばれる get-port モジュールによって
-  // ファイアウォールの問い合わせが発生してしまうので、適当なポート番号を指定している。
-  // https://github.com/TrevorSundberg/puppeteer-in-electron/pull/29 を
-  // マージ済みのバージョンがリリースされれば解決される。
-  // なお、 pie:initialize 前に自ら getPort を呼んでしまうと、
-  //  Must be called at startup before the electron app is ready.
-  // 例外が発生してしまう。
-  await pie.initialize(app, (52487 + Math.floor(Math.random() * 6144)));
+  // puppeteer 使用ポートは、空きポートから自動的に取得される
+  await pie.initialize(app);
   await app.whenReady();
   ppBrowser = await pie.connect(app, puppeteer);
 
