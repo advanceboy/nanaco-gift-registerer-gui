@@ -83,7 +83,11 @@ const waitAsync = async (time) => {
     let urlList;
     if (data.asGiftIdList) {
       // ギフトID から URL 一覧を作成
-      urlList = data.giftTexts.split(/\r\n|\r|\n/).filter(l => /^[a-zA-Z0-9]{16}$/.test(l)).map(l => `https://www.nanaco-net.jp/pc/emServlet?gid=${l}`);
+      const re = /^\s*([a-zA-Z0-9]{16})\s*$/;
+      urlList = data.giftTexts.split(/\r\n|\r|\n/)
+        .map(l => { const m = l.match(re); return m ? m[1] : undefined })
+        .filter(l => l !== undefined)
+        .map(l => `https://www.nanaco-net.jp/pc/emServlet?gid=${l}`);
     } else {
       // メールの本文から ギフト URL を抽出
       const re = new RegExp(String.raw`https://www\.nanaco-net\.jp/pc/emServlet\?gid=[a-zA-Z0-9]{16}`);
