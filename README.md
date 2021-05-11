@@ -4,9 +4,11 @@ nanaco ギフト を、 GUI 上で自動的に登録するツールです。
 
 Windows 向けのビルド済みツールは、 <https://advanceboy.booth.pm/items/2942725> で販売しています。
 
+より詳しい使い方等の説明を、 [作者のブログ記事](https://aquasoftware.net/blog/?p=1560) に掲載しています。
+
 ## 使い方
 
-1. `nanaco-gift-registerer-gui.exe` をダブルクリックして起動する
+1. ビルド済みの `nanaco-gift-registerer-gui.exe` をダブルクリックして起動する
 1. "ギフトID" のリストや、 "ＰＣ用URL付ｷﾞﾌﾄID" が含まれているメール本文 をテキストボックスに入力する
 1. nanaco の会員の種類と、 nanaco のログイン情報を入力する
 1. 「実行」をクリックする
@@ -49,3 +51,8 @@ nanaco-gift-registerer-gui.exe --step-waiting=1000
 ## ライセンス
 
 [LICENSE](LICENSE) ファイルを参照。
+
+## 変更履歴
+
+* v0.0.1
+  * 初版
