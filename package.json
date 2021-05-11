@@ -6,6 +6,8 @@
   "scripts": {
     "prestart": "tsc --build ./tsconfig.forpie.json",
     "start": "electron .",
+    "prepublish": "tsc --build ./tsconfig.forpie.json",
+    "publish": "electron-builder --win --ia32",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "win": {
@@ -26,6 +28,7 @@
   "homepage": "https://github.com/advanceboy/nanaco-gift-registerer-gui#readme",
   "build": {
     "files": [
+      "!.vscode/*",
       "!dependencies/**",
       "!lib/**/*.{d.ts,js.map}",
       "!limit-to-counts.non${channel}.dat"
