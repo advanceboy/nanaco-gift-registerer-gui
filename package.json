@@ -1,10 +1,13 @@
 {
   "name": "nanaco-gift-registerer-gui",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "nanaco Gift Automatic Registerer",
   "main": "main.js",
   "scripts": {
+    "prestart": "tsc --build ./tsconfig.forpie.json",
     "start": "electron .",
+    "prepublish": "tsc --build ./tsconfig.forpie.json",
+    "publish": "electron-builder --win --ia32",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "win": {
@@ -24,8 +27,27 @@
   },
   "homepage": "https://github.com/advanceboy/nanaco-gift-registerer-gui#readme",
   "build": {
+    "extraFiles": [
+      "LICENSE",
+      "README.md"
+    ],
     "files": [
-      "!limit-to-counts.non${channel}.dat"
+      "lib/**/*.js",
+      "node_modules/**/*",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/*.d.ts",
+      "!**/node_modules/.bin",
+      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
+      "!**/._*",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
+      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
+      "!**/{appveyor.yml,.travis.yml,circle.yml}",
+      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
+      "*.html",
+      "limit-to-counts.*.dat",
+      "!limit-to-counts.non${channel}.dat",
+      "*.js"
     ],
     "win": {
       "target": "zip"
@@ -33,12 +55,15 @@
   },
   "devDependencies": {
     "electron": "^12.0.6",
-    "electron-builder": "^22.10.5"
+    "electron-builder": "^22.10.5",
+    "typescript": "^4.2.4"
   },
   "dependencies": {
+    "async-retry": "^1.3.1",
+    "get-port": "^5.1.1",
     "glob": "^7.1.6",
     "glob-promise": "^4.1.0",
     "puppeteer-core": "^9.0.0",
-    "puppeteer-in-electron": "^3.0.3"
+    "uuid": "^3.3.3"
   }
 }

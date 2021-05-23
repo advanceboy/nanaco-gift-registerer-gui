@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs').promises;
 const path = require('path');
 const globPromise = require('glob-promise');
-const pie = require('puppeteer-in-electron');
+const pie = require('./lib/puppeteer-in-electron/index');
 const puppeteer = require("puppeteer-core");
 
 /** @type {puppeteer.Browser} */
@@ -25,14 +25,8 @@ const waitAsync = async (time) => {
   const stepWaiting = app.commandLine.hasSwitch('step-waiting') ? parseFloat(app.commandLine.getSwitchValue('step-waiting')) : 100;
   if (Number.isNaN(stepWaiting)) throw `invalid option --step-waiting=${app.commandLine.getSwitchValue('step-waiting')}`;
 
-  // pie:initialize@port を省略すると、内部で呼ばれる get-port モジュールによって
-  // ファイアウォールの問い合わせが発生してしまうので、適当なポート番号を指定している。
-  // https://github.com/TrevorSundberg/puppeteer-in-electron/pull/29 を
-  // マージ済みのバージョンがリリースされれば解決される。
-  // なお、 pie:initialize 前に自ら getPort を呼んでしまうと、
-  //  Must be called at startup before the electron app is ready.
-  // 例外が発生してしまう。
-  await pie.initialize(app, (52487 + Math.floor(Math.random() * 6144)));
+  // puppeteer 使用ポートは、空きポートから自動的に取得される
+  await pie.initialize(app);
   await app.whenReady();
   ppBrowser = await pie.connect(app, puppeteer);
 
@@ -89,7 +83,11 @@ const waitAsync = async (time) => {
     let urlList;
     if (data.asGiftIdList) {
       // ギフトID から URL 一覧を作成
-      urlList = data.giftTexts.split(/\r\n|\r|\n/).filter(l => /^[a-zA-Z0-9]{16}$/.test(l)).map(l => `https://www.nanaco-net.jp/pc/emServlet?gid=${l}`);
+      const re = /^\s*([a-zA-Z0-9]{16})\s*$/;
+      urlList = data.giftTexts.split(/\r\n|\r|\n/)
+        .map(l => { const m = l.match(re); return m ? m[1] : undefined })
+        .filter(l => l !== undefined)
+        .map(l => `https://www.nanaco-net.jp/pc/emServlet?gid=${l}`);
     } else {
       // メールの本文から ギフト URL を抽出
       const re = new RegExp(String.raw`https://www\.nanaco-net\.jp/pc/emServlet\?gid=[a-zA-Z0-9]{16}`);
