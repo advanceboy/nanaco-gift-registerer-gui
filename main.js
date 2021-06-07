@@ -109,6 +109,7 @@ const waitAsync = async (time) => {
       mainWindow.webContents.send('appendResult', `Process: ${maskedGid}`);
 
       // ウィンドウ作成
+      await waitAsync(100 + stepWaiting); // 前回の registerWindow.destroy() 以降 BrowserWindow 再作成前にスリープを入れる
       const registerWindow = new BrowserWindow();
       windowList.push(registerWindow);
       try {
@@ -210,7 +211,6 @@ const waitAsync = async (time) => {
         registerWindow.destroy();
       }
     }
-    await waitAsync(100 + stepWaiting);
   });
 
   // (mainWindow がガベージコレクタに回収されないように、) メインウィンドウ終了を待機し、
