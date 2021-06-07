@@ -70,6 +70,25 @@
         <label for="txtResultArea">進捗ログ</label>
         <textarea class="form-control" id="txtResultArea" rows="8" data-bind="textInput: resultText" readonly></textarea>
       </div>
+
+      <h4>詳細オプション</h4>
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-4 col-md-3">エラーを無視</legend>
+          <div class="col-sm-8 col-md-9">
+            <div class="form-check">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" id="chkSkipErrLoginFailure" data-bind="checked: skipErrLoginFailure" class="custom-control-input">
+                <label class="custom-control-label" for="chkSkipErrLoginFailure">ログイン失敗</label>
+              </div>
+              <div class="custom-control custom-switch">
+                <input type="checkbox" id="chkSkipErrAlreadyRegistered" data-bind="checked: skipErrAlreadyRegistered" class="custom-control-input">
+                <label class="custom-control-label" for="chkSkipErrAlreadyRegistered">登録済み</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
     </form>
 
 
@@ -107,6 +126,8 @@
           this.mobilePassword = ko.observable('');
           this.submittable = ko.observable(true);
           this.resultText = ko.observable('');
+          this.skipErrLoginFailure = ko.observable(false);
+          this.skipErrAlreadyRegistered = ko.observable(false);
 
           // "実行" クリック時
           this.doSubmit = async (formElement) => {

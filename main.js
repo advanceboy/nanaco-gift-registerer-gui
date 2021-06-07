@@ -73,7 +73,9 @@ const waitAsync = async (time) => {
      *    asGiftIdList:boolean,
      *    nanacoNumber:string,
      *    cardNumber: string,
-     *    mobilePassword: string
+     *    mobilePassword: string,
+     *    skipErrLoginFailure: boolean,
+     *    skipErrAlreadyRegistered: boolean
      * }}
      */
     const data = JSON.parse(dataStringified);
@@ -102,6 +104,7 @@ const waitAsync = async (time) => {
       throw `The number of gifts has exceeded the limit: ${limit}`;
     }
 
+    registerLoop:
     for (let registerUrl of urlList) {
       const maskedGid = registerUrl.match(/(?<=\?)gid=.{4}/)[0] + '************';
 
@@ -159,7 +162,13 @@ const waitAsync = async (time) => {
           }
         }
         if (targetGiftRegisterAnchor === undefined) {
-          throw 'no valid button (Probably the card number or the password is wrong)';
+          let msg_t = 'no valid button (Probably the card number or the password is wrong)';
+          if (data.skipErrLoginFailure) {
+            mainWindow.webContents.send('appendResult', `warning: ${msg_t}`);
+            continue registerLoop;
+          } else {
+            throw msg_t;
+          }
         }
         await Promise.all([
           ppPage.waitForNavigation(),
@@ -193,7 +202,13 @@ const waitAsync = async (time) => {
         // "登録" ボタンをクリック
         const doRegistrationFinal = await ppPage.$('input[alt="登録する"]');
         if (!doRegistrationFinal) {
-          throw 'no valid button (Probably the gift is already registered)';
+          let msg_t = 'no valid button (Probably the gift is already registered)';
+          if (data.skipErrAlreadyRegistered) {
+            mainWindow.webContents.send('appendResult', `warning: ${msg_t}`);
+            continue registerLoop;
+          } else {
+            throw msg_t;
+          }
         }
         await Promise.all([
           ppPage.waitForNavigation(),
