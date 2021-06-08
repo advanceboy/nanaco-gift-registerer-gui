@@ -31,12 +31,14 @@ Windows 向けのビルド済みツールは、 <https://advanceboy.booth.pm/ite
     ```plain
     no valid button (Probably the card number or the password is wrong)
     ```
-  * おそらくログイン情報の誤りが原因で、想定されたボタンが表示されません。
+  * おそらくログイン情報の誤りが原因で、想定されたボタンが表示されません。 (※1)
 * 
     ```plain
     no valid button (Probably the gift is already registered)
     ```
-  * おそらくすでに登録済みのギフトIDの登録が原因で、想定されたボタンが表示されません。
+  * おそらくすでに登録済みのギフトIDの登録が原因で、想定されたボタンが表示されません。 (※1)
+
+※1: 詳細オプションの設定で、エラーを無視して続行することも可能です。
 
 ## 高度な設定
 
@@ -54,6 +56,8 @@ nanaco-gift-registerer-gui.exe --step-waiting=1000
 
 ## 変更履歴
 
+* v0.0.3
+  * 登録中にエラーが発生しても無視して続行するオプションを追加
 * v0.0.2
   * 確率的に起動に失敗する場合がある問題を修正
   * "URL ではなく ギフトID を入力" にチェック入れた場合に、 ギフトID　の前後に空白があっても無視するように改善
