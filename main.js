@@ -164,7 +164,7 @@ const waitAsync = async (time) => {
         if (targetGiftRegisterAnchor === undefined) {
           let msg_t = 'no valid button (Probably the card number or the password is wrong)';
           if (data.skipErrLoginFailure) {
-            mainWindow.webContents.send('appendResult', `warning: ${msg_t}`);
+            mainWindow.webContents.send('appendResult', `Warning: ${msg_t}`);
             continue registerLoop;
           } else {
             throw msg_t;
