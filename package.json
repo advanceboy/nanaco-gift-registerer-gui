@@ -4,9 +4,7 @@
   "description": "nanaco Gift Automatic Registerer",
   "main": "main.js",
   "scripts": {
-    "prestart": "tsc --build ./tsconfig.forpie.json",
     "start": "electron .",
-    "prepublish": "tsc --build ./tsconfig.forpie.json",
     "publish": "electron-builder --win --ia32",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -55,15 +53,12 @@
   },
   "devDependencies": {
     "electron": "^13.1.1",
-    "electron-builder": "^22.10.5",
-    "typescript": "^4.2.4"
+    "electron-builder": "^22.10.5"
   },
   "dependencies": {
-    "async-retry": "^1.3.1",
-    "get-port": "^5.1.1",
     "glob": "^7.1.6",
     "glob-promise": "^4.1.0",
     "puppeteer-core": "^9.0.0",
-    "uuid": "^3.3.3"
+    "puppeteer-in-electron": "^3.0.5"
   }
 }
