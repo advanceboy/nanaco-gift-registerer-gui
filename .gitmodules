@@ -1,3 +1,0 @@
-[submodule "dependencies/puppeteer-in-electron"]
-	path = dependencies/puppeteer-in-electron
-	url = git@github.com:TrevorSundberg/puppeteer-in-electron.git

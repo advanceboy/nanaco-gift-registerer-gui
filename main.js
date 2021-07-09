@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const fs = require('fs').promises;
 const path = require('path');
 const globPromise = require('glob-promise');
-const pie = require('./lib/puppeteer-in-electron/index');
+const pie = require('puppeteer-in-electron');
 const puppeteer = require("puppeteer-core");
 
 /** @type {puppeteer.Browser} */
