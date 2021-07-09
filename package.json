@@ -59,6 +59,6 @@
     "glob": "^7.1.6",
     "glob-promise": "^4.1.0",
     "puppeteer-core": "^9.0.0",
-    "puppeteer-in-electron": "^3.0.3"
+    "puppeteer-in-electron": "^3.0.5"
   }
 }
