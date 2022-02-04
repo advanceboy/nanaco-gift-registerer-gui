@@ -50,6 +50,19 @@ Windows 向けのビルド済みツールは、 <https://advanceboy.booth.pm/ite
 nanaco-gift-registerer-gui.exe --step-waiting=1000
 ```
 
+## ビルド
+
+Windows 32bit プロセス向けの場合:
+
+```shell
+npx electron-builder --win --ia32
+```
+
+### 実行モード切替
+
+`package.json` の `$.version` に対して、 `x.x.x-demo` のようなプレリリースバージョンをつけてビルドすることで、実行モードを切り替えます。  
+内部的には、 `$.build.files.*` の [`${channel}` ファイルマクロ](https://www.electron.build/file-patterns) の仕組みを用い、プレリリースバージョンの文字列からビルドに含めるファイルを切り替えることにより、機能の差異を実現します。
+
 ## ライセンス
 
 [LICENSE](LICENSE) ファイルを参照。
