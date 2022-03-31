@@ -85,7 +85,7 @@ const waitAsync = async (time) => {
     let urlList;
     if (data.asGiftIdList) {
       // ギフトID から URL 一覧を作成
-      const re = /^\s*([a-zA-Z0-9]{16})\s*$/;
+      const re = /^\s*([a-zA-Z0-9]{16})(?=\s|$)/;
       urlList = data.giftTexts.split(/\r\n|\r|\n/)
         .map(l => { const m = l.match(re); return m ? m[1] : undefined })
         .filter(l => l !== undefined)

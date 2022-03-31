@@ -63,12 +63,21 @@ npx electron-builder --win --ia32
 `package.json` の `$.version` に対して、 `x.x.x-demo` のようなプレリリースバージョンをつけてビルドすることで、実行モードを切り替えます。  
 内部的には、 `$.build.files.*` の [`${channel}` ファイルマクロ](https://www.electron.build/file-patterns) の仕組みを用い、プレリリースバージョンの文字列からビルドに含めるファイルを切り替えることにより、機能の差異を実現します。
 
+### electron と puppeteer-core のバージョン
+
+[Puppeteer は Chromium のバージョンと不可分](https://www.npmjs.com/package/puppeteer-core#q-why-doesnt-puppeteer-vxxx-work-with-chromium-vyyy)であるため、 `package.json` で依存している `electron`, `puppeteer-core` それぞれのパッケージのバージョンは揃えて更新する必要があります。
+
+具体的には、各 electron のメジャーバージョンは[特定の Chromium バージョンに依存](https://www.electronjs.org/ja/blog/electron-17-0)しており、[その Chromium のバージョンに一致した puppeteer のバージョン](https://www.npmjs.com/package/puppeteer-core#q-which-chromium-version-does-puppeteer-use)を [`puppeteer/versions.js`](https://github.com/puppeteer/puppeteer/blob/main/versions.js) から選択して、 puppeteer-core のマイナーバージョンを決定します。
+
 ## ライセンス
 
 [LICENSE](LICENSE) ファイルを参照。
 
 ## 変更履歴
 
+* v0.1.2
+  * "URL ではなく ギフトID を入力" にチェック入れた場合に、 行頭に ギフトID とそれに続く空白文字または改行があれば、それに続く文字を無視して ギフトID と認識するように改善
+  * 依存ライブラリを更新
 * v0.1.1
   * 依存ライブラリを更新
 * v0.1.0
@@ -77,6 +86,6 @@ npx electron-builder --win --ia32
   * 登録中にエラーが発生しても無視して続行するオプションを追加
 * v0.0.2
   * 確率的に起動に失敗する場合がある問題を修正
-  * "URL ではなく ギフトID を入力" にチェック入れた場合に、 ギフトID　の前後に空白があっても無視するように改善
+  * "URL ではなく ギフトID を入力" にチェック入れた場合に、 ギフトID の前後に空白があっても無視するように改善
 * v0.0.1
   * 初版
