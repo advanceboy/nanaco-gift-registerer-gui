@@ -75,7 +75,8 @@ const waitAsync = async (time) => {
      *    cardNumber: string,
      *    mobilePassword: string,
      *    skipErrLoginFailure: boolean,
-     *    skipErrAlreadyRegistered: boolean
+     *    skipErrAlreadyRegistered: boolean,
+     *    logRegisteredValues: boolean
      * }}
      */
     const data = JSON.parse(dataStringified);
@@ -198,6 +199,17 @@ const waitAsync = async (time) => {
           ppPage.click('#submit-button')
         ]);
         await waitAsync(stepWaiting);
+
+        // 登録金額を取得
+        if (data.logRegisteredValues) {
+          let willBeRegisteredElement = await ppPage.$('table[summary="登録金額"] tr:last-of-type > td');
+          if (willBeRegisteredElement) {
+            let willBeRegisteredValue = await willBeRegisteredElement.evaluate(elmTd => elmTd.textContent);
+            mainWindow.webContents.send('appendResult', `Value: ${willBeRegisteredValue}`);
+          } else {
+            mainWindow.webContents.send('appendResult', 'warning: no "登録金額" cell');
+          }
+        }
 
         // "登録" ボタンをクリック
         const doRegistrationFinal = await ppPage.$('input[alt="登録する"]');

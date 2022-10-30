@@ -88,6 +88,17 @@
             </div>
           </div>
         </div>
+        <div class="row">
+          <legend class="col-form-label col-sm-4 col-md-3">進捗ログ表示</legend>
+          <div class="col-sm-8 col-md-9">
+            <div class="form-check">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" id="chkLogRegisteredValues" data-bind="checked: logRegisteredValues" class="custom-control-input">
+                <label class="custom-control-label" for="chkLogRegisteredValues">登録金額</label>
+              </div>
+            </div>
+          </div>
+        </div>
       </fieldset>
     </form>
 
@@ -128,6 +139,7 @@
           this.resultText = ko.observable('');
           this.skipErrLoginFailure = ko.observable(false);
           this.skipErrAlreadyRegistered = ko.observable(false);
+          this.logRegisteredValues = ko.observable(false);
 
           // "実行" クリック時
           this.doSubmit = async (formElement) => {
