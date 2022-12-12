@@ -8,9 +8,17 @@ Windows 向けのビルド済みツールは、 <https://advanceboy.booth.pm/ite
 
 ## 使い方
 
+あらかじめ、以下の内容を nanaco 会員メニューにて登録を行ってください。
+
+* 二要素認証の電話番号
+* nanaco カードの場合は、加えて会員メニュー用パスワード
+
+その上で、以下のように実行します。
+
 1. ビルド済みの `nanaco-gift-registerer-gui.exe` をダブルクリックして起動する
 1. "ギフトID" のリストや、 "ＰＣ用URL付ｷﾞﾌﾄID" が含まれているメール本文 をテキストボックスに入力する
-1. nanaco の会員の種類と、 nanaco のログイン情報を入力する
+1. nanaco 番号と、 nanaco 会員メニュー用パスワードを入力する
+    * 以前の名残で、 nanaco カード記載の番号も入力できるようになっていますが、 nanaco ギフト登録には使用できません。
 1. 「実行」をクリックする
 
 詳しくは、上記の販売ページを参照ください。
@@ -37,6 +45,14 @@ Windows 向けのビルド済みツールは、 <https://advanceboy.booth.pm/ite
     no valid button (Probably the gift is already registered)
     ```
   * おそらくすでに登録済みのギフトIDの登録が原因で、想定されたボタンが表示されません。 (※1)
+* 
+    ```plain
+    set up password authentication before execution
+    ```
+    ```plain
+    set up two-factor authentication before execution
+    ```
+  * [2022年11月21日以降、会員メニュー用パスワードでのログインと、二要素認証用の電話番号の登録が必須化](https://www.nanaco-net.jp/information/login_2factor2211.html) されているので、別途ブラウザ等でそれらの登録を行ってください。
 
 ※1: 詳細オプションの設定で、エラーを無視して続行することも可能です。
 

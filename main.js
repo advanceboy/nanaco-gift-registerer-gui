@@ -152,6 +152,17 @@ const waitAsync = async (time) => {
         ]);
         await waitAsync(stepWaiting);
 
+        // 会員メニュー用パスワードまたは二要素認証登録のページの確認
+        const title = await ppPage.title();
+        if (title.indexOf('会員メニュー用パスワード設定') != -1) {
+          let msg_t = 'set up password authentication before execution';
+          throw msg_t;
+        }
+        if (title.indexOf('二要素認証の設定') != -1) {
+          let msg_t = 'set up two-factor authentication before execution';
+          throw msg_t;
+        }
+
         // メニューの "nanacoギフト登録" をクリック
         let targetGiftRegisterAnchor = undefined;
         for (let elm of await ppPage.$$('a')) {
