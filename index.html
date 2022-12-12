@@ -24,12 +24,12 @@
 
       <div class="d-block my-3">
         <div class="custom-control custom-radio">
-          <input name="rdoMemberType" type="radio" value="card" id="rdoMemberCard" data-bind="checked: memberType" class="custom-control-input" required>
-          <label class="custom-control-label" for="rdoMemberCard">nanaco カード</label>
+          <input name="rdoMemberType" type="radio" value="mobile" id="rdoMemberMobile" data-bind="checked: memberType" class="custom-control-input" required>
+          <label class="custom-control-label" for="rdoMemberMobile">会員メニュー用パスワード</label>
         </div>
         <div class="custom-control custom-radio">
-          <input name="rdoMemberType" type="radio" value="mobile" id="rdoMemberMobile" data-bind="checked: memberType" class="custom-control-input" required>
-          <label class="custom-control-label" for="rdoMemberMobile">nanaco モバイル</label>
+          <input name="rdoMemberType" type="radio" value="card" id="rdoMemberCard" data-bind="checked: memberType" class="custom-control-input" required>
+          <label class="custom-control-label" for="rdoMemberCard">nanaco カード番号 (使用不可)</label>
         </div>
       </div>
 
@@ -49,17 +49,17 @@
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
+          <label for="txtMobilePassword">nanaco 会員メニュー用パスワード</label>
+          <input type="password" class="form-control" id="txtMobilePassword" placeholder="パスワード"  data-bind="textInput: mobilePassword, enable: memberIsMobile, attr: { 'required': memberIsMobile }">
+          <div class="invalid-feedback">
+            パスワードを入力してください
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
           <label for="txtCardNumber">カード記載の番号</label>
           <input type="password" class="form-control" id="txtCardNumber" placeholder="カード記載の番号"  data-bind="textInput: cardNumber, enable: memberIsCard, attr: { 'required': memberIsCard }">
           <div class="invalid-feedback">
             半角数字7桁を入力してください
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-          <label for="txtMobilePassword">nanaco モバイル パスワード</label>
-          <input type="password" class="form-control" id="txtMobilePassword" placeholder="パスワード"  data-bind="textInput: mobilePassword, enable: memberIsMobile, attr: { 'required': memberIsMobile }">
-          <div class="invalid-feedback">
-            パスワードを入力してください
           </div>
         </div>
       </div>
@@ -128,7 +128,7 @@
         function ViewModel() {
           const _this = this;
           this.giftTexts = ko.observable('');
-          this.memberType = ko.observable('card');
+          this.memberType = ko.observable('mobile');
           this.memberIsCard = ko.computed(() => _this.memberType() === 'card');
           this.memberIsMobile = ko.computed(() => _this.memberType() === 'mobile');
           this.asGiftIdList = ko.observable(false);
