@@ -211,6 +211,39 @@ const waitAsync = async (time) => {
         ]);
         await waitAsync(stepWaiting);
 
+        // "登録" ボタンの有無を確認
+        const doRegistrationFinal = await ppPage.$('input[alt="登録する"]');
+        if (!doRegistrationFinal) {
+          // "登録" ボタンが無い → 登録済みとみられる場合…
+          // 登録金額を取得
+          if (data.logRegisteredValues) {
+            const alreadyResisterdTableRowList = await ppPage.$$('table[summary*="ギフトID登録フォーム"] tr');
+
+            /** @type { string | null | undefined } */
+            let alreadyRegisterdValue = undefined;
+            for (let rowHandle of alreadyResisterdTableRowList) {
+              const thText = await rowHandle.$eval('th:first-of-type', elmTh => elmTh.textContent);
+              if (thText.indexOf("■登録金額") != -1) {
+                alreadyRegisterdValue = await rowHandle.$eval('td:last-of-type', elmTd => elmTd.textContent);
+              }
+            }
+            if (alreadyRegisterdValue) {
+              mainWindow.webContents.send('appendResult', `Value: ${alreadyRegisterdValue}`);
+            } else {
+              mainWindow.webContents.send('appendResult', 'warning: no "登録金額" cell');
+            }
+          }
+
+          let msg_t = 'no valid button (Probably the gift is already registered)';
+          if (data.skipErrAlreadyRegistered) {
+            mainWindow.webContents.send('appendResult', `warning: ${msg_t}`);
+            continue registerLoop;
+          } else {
+            throw msg_t;
+          }
+        }
+
+        // 登録可能とみられる場合...
         // 登録金額を取得
         if (data.logRegisteredValues) {
           let willBeRegisteredElement = await ppPage.$('table[summary="登録金額"] tr:last-of-type > td');
@@ -223,16 +256,6 @@ const waitAsync = async (time) => {
         }
 
         // "登録" ボタンをクリック
-        const doRegistrationFinal = await ppPage.$('input[alt="登録する"]');
-        if (!doRegistrationFinal) {
-          let msg_t = 'no valid button (Probably the gift is already registered)';
-          if (data.skipErrAlreadyRegistered) {
-            mainWindow.webContents.send('appendResult', `warning: ${msg_t}`);
-            continue registerLoop;
-          } else {
-            throw msg_t;
-          }
-        }
         await Promise.all([
           ppPage.waitForNavigation(),
           doRegistrationFinal.click()
