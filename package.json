@@ -1,6 +1,6 @@
 {
   "name": "nanaco-gift-registerer-gui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "nanaco Gift Automatic Registerer",
   "main": "main.js",
   "scripts": {
@@ -52,13 +52,13 @@
     }
   },
   "devDependencies": {
-    "electron": "22-x-y",
-    "electron-builder": "^23.6.0"
+    "electron": "23-x-y",
+    "electron-builder": "^24.4.0"
   },
   "dependencies": {
     "glob": "^7.2.0",
     "glob-promise": "^4.2.2",
-    "puppeteer-core": "~19.2.0",
+    "puppeteer-core": "~19.6.0",
     "puppeteer-in-electron": "^3.0.5"
   }
 }
