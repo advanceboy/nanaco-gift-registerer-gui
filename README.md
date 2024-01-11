@@ -16,7 +16,7 @@ Windows 向けのビルド済みツールは、 <https://advanceboy.booth.pm/ite
 その上で、以下のように実行します。
 
 1. ビルド済みの `nanaco-gift-registerer-gui.exe` をダブルクリックして起動する
-1. "ギフトID" のリストや、 "ＰＣ用URL付ｷﾞﾌﾄID" が含まれているメール本文 をテキストボックスに入力する
+1. "ギフトID" のリストや、 "PC用URL付ｷﾞﾌﾄID" が含まれている メール本文 や クーポン一覧ページの内容 をテキストボックスに入力する
 1. nanaco 番号と、 nanaco 会員メニュー用パスワードを入力する
     * 以前の名残で、 nanaco カード記載の番号も入力できるようになっていますが、 nanaco ギフト登録には使用できません。
 1. 「実行」をクリックする
@@ -83,7 +83,7 @@ npx electron-builder --win --ia32
 
 [Puppeteer は Chromium のバージョンと不可分](https://www.npmjs.com/package/puppeteer-core#q-why-doesnt-puppeteer-vxxx-work-with-chromium-vyyy)であるため、 `package.json` で依存している `electron`, `puppeteer-core` それぞれのパッケージのバージョンは揃えて更新する必要があります。
 
-具体的には、各 electron のメジャーバージョンは[特定の Chromium バージョンに依存](https://www.electronjs.org/ja/blog/electron-25-0)しており、[その Chromium のバージョンに一致した puppeteer のバージョン](https://www.npmjs.com/package/puppeteer-core#q-which-chromium-version-does-puppeteer-use)を [`puppeteer/versions.js`](https://github.com/puppeteer/puppeteer/blob/main/versions.js) から選択して、 puppeteer-core のマイナーバージョンを決定します。
+具体的には、各 electron のメジャーバージョンは[特定の Chromium バージョンに依存](https://www.electronjs.org/ja/blog/electron-27-0)しており、[その Chromium のバージョンに一致した puppeteer のバージョン](https://www.npmjs.com/package/puppeteer-core#q-which-chromium-version-does-puppeteer-use)を [`puppeteer/versions.js`](https://github.com/puppeteer/puppeteer/blob/main/versions.js) から選択して、 puppeteer-core のマイナーバージョンを決定します。
 
 ## ライセンス
 
@@ -91,6 +91,8 @@ npx electron-builder --win --ia32
 
 ## 変更履歴
 
+* v0.2.4
+  * 依存ライブラリを更新
 * v0.2.3
   * 依存ライブラリを更新
 * v0.2.2
