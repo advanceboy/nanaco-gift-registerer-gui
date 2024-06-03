@@ -83,7 +83,7 @@ npx electron-builder --win --ia32
 
 [Puppeteer は Chromium のバージョンと不可分](https://www.npmjs.com/package/puppeteer-core#q-why-doesnt-puppeteer-vxxx-work-with-chromium-vyyy)であるため、 `package.json` で依存している `electron`, `puppeteer-core` それぞれのパッケージのバージョンは揃えて更新する必要があります。
 
-具体的には、各 electron のメジャーバージョンは[特定の Chromium バージョンに依存](https://www.electronjs.org/ja/blog/electron-27-0)しており、[その Chromium のバージョンに一致した puppeteer のバージョン](https://www.npmjs.com/package/puppeteer-core#q-which-chromium-version-does-puppeteer-use)を [`puppeteer/versions.js`](https://github.com/puppeteer/puppeteer/blob/main/versions.js) から選択して、 puppeteer-core のマイナーバージョンを決定します。
+具体的には、各 electron のメジャーバージョンは[特定の Chromium バージョンに依存](https://www.electronjs.org/ja/blog/electron-30-0)しており、[その Chromium のバージョンに一致した puppeteer のバージョン](https://www.npmjs.com/package/puppeteer-core#q-which-chromium-version-does-puppeteer-use)を [`puppeteer/versions.js`](https://github.com/puppeteer/puppeteer/blob/main/versions.js) から選択して、 puppeteer-core のマイナーバージョンを決定します。
 
 ## ライセンス
 
@@ -91,6 +91,8 @@ npx electron-builder --win --ia32
 
 ## 変更履歴
 
+* v0.2.5
+  * 依存ライブラリを更新
 * v0.2.4
   * 依存ライブラリを更新
 * v0.2.3
